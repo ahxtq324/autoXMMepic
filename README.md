@@ -2,6 +2,8 @@
 
 READ ME!!!!!!!! 
 
+To run this code from anywhere, you can add an alias to run this code in your ~/.bashrc or ~/.bash_profile file as: alias xmmauto='python /path/to/your/xmmauto.py'
+
 A few things to keep in mind while running the code:
 
  0. Before running the code,
