@@ -10,7 +10,7 @@ A few things to keep in mind while running the code:
     
     b) Set your SAS_CCFPATH in your .bashrc or .bash_profile file to the path where your calibration (CCF) files are located. 
     
-    c) move all your unzipped odf files into a folder named 'odf', and set your current working directory to the directory where your odf folder resides The code will make an 'analysis' folder in the same directory. 
+    c) When you download the ODF files from XMM archive for a given observation, it comes in a zipped file. You should unzip it under a folder named after your /path/to/your/obsID/odf/. There will be another .TAR file which you need to unzip as well. Set your current working directory to the directory where your odf folder resides (for e.g. /path/to/your/obsIDfolder) The code will make an 'analysis' folder in the same directory. 
 
  1. This code needs to be run in parts, unless you have the source and background region coordinates handy to extract the spectrum, and analyse the region. If you don't have them, which will mostly be the case if you are analysing this data set for the first time, then you should answer 'n' to the latter two questions in this run, and then run the script again when you have the region files ready. 
 
