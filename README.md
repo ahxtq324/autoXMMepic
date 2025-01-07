@@ -1,21 +1,39 @@
 # autoXMMepic
 
-READ ME!!!!!!!! 
+# **READ ME!!!** 
 
-To run this code from anywhere, you can add an alias to run this code in your ~/.bashrc or ~/.bash_profile file as: alias xmmauto='python /path/to/your/xmmauto.py'
+To run this code from anywhere, you can add an alias in your `~/.bashrc` or `~/.bash_profile` file as: `alias xmmauto='python /path/to/your/xmmauto.py'`
+
+## **Important Notes**
 
 A few things to keep in mind while running the code:
 
- 0. Before running the code,
- 
-    a) Initialize HEASOFT and, then XMM SAS. 
-    
-    b) Set your SAS_CCFPATH in your .bashrc or .bash_profile file to the path where your calibration (CCF) files are located. 
-    
-    c) When you download the ODF files from XMM archive for a given observation, it comes in a zipped file. You should unzip it under a folder named after your /path/to/your/obsID/odf/. There will be another .TAR file which you need to unzip as well. Set your current working directory to the directory where your odf folder resides (for e.g. /path/to/your/obsIDfolder) The code will make an 'analysis' folder in the same directory. 
+### **0. Before Running the Code:**
+- Helpful Tip:
+a. When you download ODF files from the XMM archive for a given observation, they will be in a zipped file.
+b. Create a new directory (`obsID`) and a subdirectory ('odf') in your preferred folder, such that the path is: `/path/to/your/preferredfolder/obsID/odf`.
+c. Navigate to the `odf` folder and unzip the downloaded file using: `tar xzvf ../obsID.tar.gz`
+d. Unzip the new .TAR file as `tar xvf XXXX_obsID.TAR`. Remove the original *.tar.gz and *TAR files.
+e. Set your current working directory to the directory where your odf folder resides, i.e. `/path/to/your/preferredfolder/obsID`. The code will make an 
+`analysis` folder in the same directory.
+         
+- **Initialize HEASoft**, followed by **XMM SAS**.
 
- 1. This code needs to be run in parts, unless you have the source and background region coordinates handy to extract the spectrum, and analyse the region. If you don't have them, which will mostly be the case if you are analysing this data set for the first time, then you should answer 'n' to the latter two questions in this run, and then run the script again when you have the region files ready. 
+- Make sure to set your `SAS_CCFPATH` either permanently in your `~/.bashrc` or `~/.bash_profile` file to the directory where your calibration (CCF) files are located, 
+           or export it for your current run as `export SAS_CCFPATH=/path/to/your/CCF/files`
+ ---
 
- 2. The region files should be saved in physical coordinates as src_phys.reg, and bkg75_phys.reg in ds9. The physical coordinates are the same for all the 3 EPIC cameras, so you only need 1 file for the source and bkg. Just make sure that the background region is source-free. 
+### **1. Initial Questions:**
+- The script will ask you a few questions at the start. This is because the script is designed to run in parts unless you already have the source and background region coordinates prepared for spectrum extraction and analysis.
+- If you're analyzing the dataset for the first time and don't have these coordinates, answer **`n`** to the last two questions during the initial run. Once you prepare the region files, re-run the script.
+- If you have everything ready, answer **`y`** to all the respective questions.
 
- 3. eregionanalyse will give you a 3-sigma upper limit to the count-rate in the source region in 0.3-10 keV images of each detector, and will save the output as *eregaoutput_src.txt.
+---
+
+### **2. Preparing Region Files:**
+- Save the region files in **physical coordinates** as `src_phys.reg` and `bkg75_phys.reg` using `ds9`.
+- The physical coordinates are consistent across all three EPIC cameras, so a single file for the source and background is sufficient.
+- Ensure the background region is free of any sources.
+- **Note:** If the background region overlaps chip gaps in any instrument, you can create separate background regions for different cameras. Name them as `{camera}_bkg75_phys.reg`, and update the respective `glob.glob` lines in the code accordingly. (I am currently unsure if regions overlapping with chip gaps is a problem, so this solution is just to be extra careful)
+
+---
