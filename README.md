@@ -2,7 +2,7 @@
 
 # **READ ME!!** 
 
-I have created a custom script to streamline the XMM processing workflow to process observations of extragalactic point sources. \
+I have created a custom script to streamline the XMM processing workflow to process EPIC observations of extragalactic point sources. \
 To run this code from anywhere, you can add an alias in your `~/.bashrc` or `~/.bash_profile` file as: `alias xmmauto='python /path/to/your/xmmauto.py'`
 
 ## **Important Notes**
