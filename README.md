@@ -2,21 +2,25 @@
 
 # **READ ME!!** 
 
-I have created a script to streamline the XMM processing workflow for my own use, but I hope it will also be useful to others. The code is meant to process observations of extragalactic point sources. \
+I have created a custom script to streamline the XMM processing workflow to process observations of extragalactic point sources. \
 To run this code from anywhere, you can add an alias in your `~/.bashrc` or `~/.bash_profile` file as: `alias xmmauto='python /path/to/your/xmmauto.py'`
 
 ## **Important Notes**
 
-A few things to keep in mind while running the code:
-
 ### **0. Before Running the Code:**
-- **Helpful Tips**:\
-    a. When you download ODF files from the XMM archive for a given observation, they will be in a zipped file.\
-    b. Create a new directory (`obsID`) and a subdirectory ('odf') in your preferred folder, such that the path is: `/path/to/your/preferredfolder/obsID/odf`.\
-    c. Navigate to the `odf` folder and unzip the downloaded file using: `tar xzvf ../obsID.tar.gz`\
-    d. Unzip the new .TAR file as `tar -xvf XXXX_obsID.TAR`. Remove the original *.tar.gz and *TAR files.\
-    e. Set your current working directory to the directory where your odf folder resides, i.e. `/path/to/your/preferredfolder/obsID`. The code will make an 
-       `analysis` folder in the same directory.
+- **Helpful Tips**:
+
+        a. Create a new directory (`obsID`) and a subdirectory ('odf') in your preferred folder.
+  
+        b. Download the file in the folder `/path/to/your/preferredfolder/obsID/odf`. The downloaded ODF files from
+           the XMM archive for a given observation will be in a zipped file.
+  
+        c. Unzip the downloaded file using: `tar xzvf ../obsID.tar.gz`
+  
+        d. Now unzip the new .TAR file as `tar -xvf XXXX_obsID.TAR`. Remove the original *.tar.gz and *TAR files.
+  
+        e. Set your current working directory to the directory where your odf folder resides, i.e. `/path/to/your/preferredfolder/obsID`
+           and run the code. The code will make an `analysis` folder in the same directory.
          
 - **Initialize HEASoft**, followed by **XMM SAS**.
 
@@ -26,7 +30,7 @@ A few things to keep in mind while running the code:
 
 ### **1. Initial Questions:**
 The script will ask you a few questions at the start.
-- If you're analyzing the dataset for the first time and don't have the source and background coordinates, answer **`n`** to the last two questions (spectrum and analysis related) during the initial run. After you have prepared the region files, you may re-run the script and answer **`y`** to the last two questions.\
+- If you're analyzing the dataset for the first time and don't have the source and background coordinates, answer **`n`** to the last two questions (spectrum and analysis related) during the initial run. After you have prepared the region files, you may re-run the script and answer **`y`** to the last two questions.
 - If you have everything ready, you may answer **`y`** to all the relevant questions.
 
 ---
