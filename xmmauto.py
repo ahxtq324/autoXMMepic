@@ -66,7 +66,7 @@ def sas_setup(firsttime,initodfdir):
 
 	if firsttime == 'y':
 		initdir = os.path.join(initodfdir,'odf')
-		os.environ['SAS_ODF'] = initdir					# Set the initial SAS_ODF environment
+		os.environ['SAS_ODF'] = initdir						# Set the initial SAS_ODF environment
 
 		try:
 			os.makedirs(foldname,exist_ok=False)			# Make the analysis directory
@@ -75,10 +75,10 @@ def sas_setup(firsttime,initodfdir):
 
 		workdir = os.path.join(initodfdir,foldname)
 		os.chdir(workdir)
-		os.system(f"cifbuild > output_log_{time_stamp}.txt")							# Run cifbuild to generate the Calibration Index File
+		os.system(f"cifbuild > output_log_{time_stamp}.txt")		# Run cifbuild to generate the Calibration Index File
 		ccfpath = os.path.join(workdir,"ccf.cif")	
-		os.environ['SAS_CCF'] = ccfpath					# Set the SAS_CCF environment
-		os.system(f"odfingest >> output_log_{time_stamp}.txt")							# Run odfingest to produce summary files
+		os.environ['SAS_CCF'] = ccfpath								# Set the SAS_CCF environment
+		os.system(f"odfingest >> output_log_{time_stamp}.txt")		# Run odfingest to produce summary files
 	
 	if firsttime == 'n':
 		workdir = os.path.join(initodfdir,foldname)
@@ -146,26 +146,26 @@ def analysis(cams_to_process):
 			
 		# Create a light-curve above 10 keV to check for flaring high background period
 		os.system(
-					f"evselect table={cam}.fits withrateset=Y rateset={cam}_hfl_lc.fits " 
-					f"maketimecolumn=Y timebinsize=100 makeratecolumn=Y expression='{expr_string}' >> output_log_{time_stamp}.txt"
-					)
+				f"evselect table={cam}.fits withrateset=Y rateset={cam}_hfl_lc.fits " 
+				f"maketimecolumn=Y timebinsize=100 makeratecolumn=Y expression='{expr_string}' >> output_log_{time_stamp}.txt"
+			 	 )
 		
 		# Create a good time interval (GTI) file filtering out the high background periods
 		os.system(
-					f"tabgtigen table={cam}_hfl_lc.fits expression='{rate_expr}' gtiset={cam}_gti.fits >> output_log_{time_stamp}.txt"
-				 )
+				f"tabgtigen table={cam}_hfl_lc.fits expression='{rate_expr}' gtiset={cam}_gti.fits >> output_log_{time_stamp}.txt"
+			 	 )
 		
 		# Create an event list which is free of high background periods. Also restrict to well calibrated patterns and energy band
 		os.system(
-					f"evselect table={cam}.fits withfilteredset=Y filteredset={cam}_clean.fits destruct=Y " 
-					f"keepfilteroutput=T expression='{gti_expr}' >> output_log_{time_stamp}.txt"
-				 )
+				f"evselect table={cam}.fits withfilteredset=Y filteredset={cam}_clean.fits destruct=Y " 
+				f"keepfilteroutput=T expression='{gti_expr}' >> output_log_{time_stamp}.txt"
+			 	 )
 		
 		# Create an fits image of the above cleaned event file
 		os.system(
-					f"evselect table={cam}_clean.fits imagebinning=binSize imageset={cam}_image_all.fits " 
-					f"withimageset=yes xcolumn=X ycolumn=Y ximagebinsize={bin_val} yimagebinsize={bin_val} >> output_log_{time_stamp}.txt"
-				 )
+				f"evselect table={cam}_clean.fits imagebinning=binSize imageset={cam}_image_all.fits " 
+				f"withimageset=yes xcolumn=X ycolumn=Y ximagebinsize={bin_val} yimagebinsize={bin_val} >> output_log_{time_stamp}.txt"
+			 	 )
 			
 	print (CYELL + "All processing completed successfully!" + CEND)
 
@@ -210,38 +210,38 @@ def make_spec(cams_to_process, specprefix):
 
 		# Create source spectrum for EPIC cam with specprefix in the name of the files.
 		os.system(
-					f"evselect table={cam}_clean.fits withspectrumset=yes spectrumset={cam}_{specprefix}_spectrum.fits energycolumn=PI spectralbinsize=1 " 
-					f"withspecranges=yes specchannelmin=0 specchannelmax={specchanmax} expression='{src_expr_string}' >> output_log_{time_stamp}.txt"
-				 )
+				f"evselect table={cam}_clean.fits withspectrumset=yes spectrumset={cam}_{specprefix}_spectrum.fits energycolumn=PI spectralbinsize=1 " 
+				f"withspecranges=yes specchannelmin=0 specchannelmax={specchanmax} expression='{src_expr_string}' >> output_log_{time_stamp}.txt"
+			 	 )
 
 		# Create background spectrum for EPIC cam with specprefix in the name of the files.
 		os.system(
-					f"evselect table={cam}_clean.fits withspectrumset=yes spectrumset={cam}_{specprefix}_bkg_spectrum.fits energycolumn=PI spectralbinsize=1 "
-					f"withspecranges=yes specchannelmin=0 specchannelmax={specchanmax} expression='{bkg_expr_string}' >> output_log_{time_stamp}.txt"
-				 )
+				f"evselect table={cam}_clean.fits withspectrumset=yes spectrumset={cam}_{specprefix}_bkg_spectrum.fits energycolumn=PI spectralbinsize=1 "
+				f"withspecranges=yes specchannelmin=0 specchannelmax={specchanmax} expression='{bkg_expr_string}' >> output_log_{time_stamp}.txt"
+			 	 )
 		
 		#  Calculate and write the BACKSCAL keyword in respective EPIC spectra. Accounts for bad pixels and ccd gaps.
 		os.system(
-					f"backscale spectrumset={cam}_{specprefix}_spectrum.fits withbadpixcorr=True badpixlocation={cam}_clean.fits >> output_log_{time_stamp}.txt;"
-					f"backscale spectrumset={cam}_{specprefix}_bkg_spectrum.fits withbadpixcorr=True badpixlocation={cam}_clean.fits >> output_log_{time_stamp}.txt"
+				f"backscale spectrumset={cam}_{specprefix}_spectrum.fits withbadpixcorr=True badpixlocation={cam}_clean.fits >> output_log_{time_stamp}.txt;"
+				f"backscale spectrumset={cam}_{specprefix}_bkg_spectrum.fits withbadpixcorr=True badpixlocation={cam}_clean.fits >> output_log_{time_stamp}.txt"
 				 )
 
 		# Create redistribution matrix file (RMF) for a given spectrum.
 		os.system(
-					f"rmfgen spectrumset={cam}_{specprefix}_spectrum.fits rmfset={cam}_{specprefix}.rmf >> output_log_{time_stamp}.txt"
+				f"rmfgen spectrumset={cam}_{specprefix}_spectrum.fits rmfset={cam}_{specprefix}.rmf >> output_log_{time_stamp}.txt"
 				 )
 		
 		# Create Ancillary Response File (ARF) for the source.
 		os.system(
-					f"arfgen spectrumset={cam}_{specprefix}_spectrum.fits arfset={cam}_{specprefix}.arf withrmfset=yes "
-					f"rmfset={cam}_{specprefix}.rmf badpixlocation={cam}_clean.fits detmaptype=psf >> output_log_{time_stamp}.txt"
-				)
+				f"arfgen spectrumset={cam}_{specprefix}_spectrum.fits arfset={cam}_{specprefix}.arf withrmfset=yes "
+				f"rmfset={cam}_{specprefix}.rmf badpixlocation={cam}_clean.fits detmaptype=psf >> output_log_{time_stamp}.txt"
+				 )
 		
 		# Group the spectral files for each cam
 		os.system(
-					f"specgroup spectrumset={cam}_{specprefix}_spectrum.fits mincounts=1 oversample=3 rmfset={cam}_{specprefix}.rmf " 
-					f"arfset={cam}_{specprefix}.arf backgndset={cam}_{specprefix}_bkg_spectrum.fits groupedset={cam}_{specprefix}_grp.fits >> output_log_{time_stamp}.txt"
-				)
+				f"specgroup spectrumset={cam}_{specprefix}_spectrum.fits mincounts=1 oversample=3 rmfset={cam}_{specprefix}.rmf " 
+				f"arfset={cam}_{specprefix}.arf backgndset={cam}_{specprefix}_bkg_spectrum.fits groupedset={cam}_{specprefix}_grp.fits >> output_log_{time_stamp}.txt"
+				 )
 
 
 def make_images(cams_to_process,lowband,highband,bandname):
@@ -249,7 +249,6 @@ def make_images(cams_to_process,lowband,highband,bandname):
     
 	if cams_to_process == 'all':
 		cams_to_process = ['m1','m2','pn']
-	
 	
 	lowband = [int(x) for x in lowband.split(',')]
 	highband = [int(x) for x in highband.split(',')]
@@ -271,8 +270,8 @@ def make_images(cams_to_process,lowband,highband,bandname):
 			print (CYELL + f"Making images of {cam} data..." + CEND)
 
 			os.system(
-						f"evselect table={cam}_clean.fits imagebinning=binSize imageset={cam}_image_{bandname[i]}.fits withimageset=yes " 
-						f"xcolumn=X ycolumn=Y ximagebinsize={bin_val} yimagebinsize={bin_val} expression='{expr_string}' >> output_log_{time_stamp}.txt"
+					f"evselect table={cam}_clean.fits imagebinning=binSize imageset={cam}_image_{bandname[i]}.fits withimageset=yes " 
+					f"xcolumn=X ycolumn=Y ximagebinsize={bin_val} yimagebinsize={bin_val} expression='{expr_string}' >> output_log_{time_stamp}.txt"
 					 )
 
 
