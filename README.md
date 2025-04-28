@@ -19,7 +19,7 @@ To run this code from anywhere, you can add an alias in your `~/.bashrc` or `~/.
   
         d. Now unzip the new .TAR file as `tar -xvf XXXX_obsID.TAR`. Remove the original *.tar.gz and *TAR files.
   
-        e. Set your current working directory to the directory where your odf folder resides, i.e. `/path/to/your/preferredfolder/obsID`
+        e. Set your current working directory to the parent directory where your odf folder resides, i.e. `/path/to/your/preferredfolder/obsID`
            and run the code. The code will make an `analysis` folder in the same directory.
          
 - **Initialize HEASoft**, followed by **XMM SAS**.
